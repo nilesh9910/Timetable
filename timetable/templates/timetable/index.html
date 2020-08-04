@@ -1,0 +1,27 @@
+{% extends 'timetable/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block body %}
+    <button class="btn btn-primary" id="myBtn">Create TimeTable</button>
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form class='m-auto' style='width: 70%' method='POST' action="{% url 'timetable:index' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type='submit' class='btn btn-primary' value='Create TimeTable'>
+            </form>
+        </div>
+
+    </div>
+    
+    {% if error %}
+    <script>
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    </script>
+    {% endif %}
+    
+{% endblock body %}
