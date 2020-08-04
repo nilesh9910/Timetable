@@ -1,1 +1,18 @@
-{{ id }}
+{% extends 'timetable/base.html' %}
+{% block body %}
+    <table border="2" cellspacing="3" align="center">
+    <tr>
+    <td align="center">
+    {% for time in time_head %}
+    <td>{{ time }}
+    {% endfor %}
+    </tr>
+    {% for day, day_name in mylist %}
+        <tr>
+        <td align="center">{{ day_name }}
+        {% for lec in day %}
+        <td align="center">{% if lec is none %}---{% else %}{{ lec }}{% endif %}<br>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+{% endblock body %}

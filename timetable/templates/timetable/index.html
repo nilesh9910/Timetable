@@ -2,17 +2,32 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block body %}
-    <button class="btn btn-primary" id="myBtn">Create TimeTable</button>
+    <div class='top-hd'>
+    <img id="bg-img" src="{% static 'timetable/images/head-img.jpg' %}">
+    <button class="btn btn-primary btn-lg shadow mb-5 rounded myBtn" id="hrBtn">Create TimeTable</button>
+    <div>
+    {% if user.is_authenticated %}
+        <h2 class="shadow-sm p-3 mb-5 bg-white rounded">Your TimeTables</h2>
+        <ul>
+        {% for timetable in all_timetable %}
+        <li><a href="{% url 'timetable:edit' timetable.id %}">{{ timetable }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endif %}
     <div id="myModal" class="modal">
 
         <!-- Modal content -->
         <div class="modal-content">
             <span class="close">&times;</span>
-            <form class='m-auto' style='width: 70%' method='POST' action="{% url 'timetable:index' %}">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input type='submit' class='btn btn-primary' value='Create TimeTable'>
-            </form>
+            {% if user.is_authenticated %}
+                <form class='m-auto' style='width: 70%' method='POST' action="{% url 'timetable:index' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type='submit' class='btn btn-primary' value='Create TimeTable'>
+                </form>
+            {% else %}
+                <h1>Please Login</h1>
+            {% endif %}
         </div>
 
     </div>
