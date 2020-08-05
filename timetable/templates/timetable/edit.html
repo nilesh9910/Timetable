@@ -5,7 +5,7 @@
         <form action="{% url 'timetable:edit' id %}" method="POST">
             {% csrf_token %}
             {{ cellform|crispy }}
-            <input class="btn btn-primary" type="submit" name="cell" value="Add to TimeTable">
+            <input class="btn btn-primary" type="submit" name="cell" value="Add/Update to TimeTable">
         </form>
         <h1 class="text-center">{{ title }}</h1>
         <table border="2" cellspacing="3" align="center">
