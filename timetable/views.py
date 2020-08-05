@@ -4,6 +4,9 @@ from datetime import datetime, timedelta, date
 from .models import DayChoice, TimeTable, Subject
 from .forms import TimeTableForm, SubjectForm, SubjectCellForm
 from django.views.generic import ListView
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.db import IntegrityError
 # Create your views here.
 def index(request):
     form = TimeTableForm()
@@ -39,7 +42,7 @@ def edit(request, id):
     # creating a two dimension list with subject name if there is a lecture added else None 
     list_tt = [[None for _ in range(this_timetable.no_of_lec)] for _ in range(7)]
     for cell in this_timetable.sub_cell.all():
-        list_tt[cell.day][cell.period] = cell.subject_set.get().name_of_sub
+        list_tt[cell.day][cell.period] = cell.subject.name_of_sub
     
     # get all days in the choices available
     all_days = [DayChoice(j).label for j in range(7)]
@@ -52,6 +55,7 @@ def edit(request, id):
     all_subjects = Subject.objects.filter(user = request.user.id)
     ctx['all_subjects'] = all_subjects
     ctx['cellform'] = cellform
+    ctx['title'] = this_timetable.name
     if request.method == "POST":
         if "subjec" in request.POST:
             subform = SubjectForm(request.POST)
@@ -59,6 +63,41 @@ def edit(request, id):
                 obj = subform.save(commit=False)
                 obj.user = request.user
                 obj.save()
+                return HttpResponseRedirect(reverse('timetable:edit', args=(id,)))
         elif "cell" in request.POST:
-            print("Add to timetable is called")
+            cellform = SubjectCellForm(request.POST)
+            if cellform.is_valid():
+                obj = cellform.save(commit=False)
+                inst = TimeTable.objects.get(id=id)
+                period = cellform.cleaned_data.get('period')
+                obj.of_time_table = inst
+                obj.period = period - 1
+                obj.save()
+                return HttpResponseRedirect(reverse('timetable:edit', args=(id,)))
     return render(request, 'timetable/edit.html', ctx)
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        email = request.POST["email"]
+
+        # Ensure password matches confirmation
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "timetable/register.html", {
+                "message": "Passwords must match."
+            })
+
+        # Attempt to create new user
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+        except IntegrityError:
+            return render(request, "timetable/register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect(reverse("timetable:index"))
+    else:
+        return render(request, "timetable/register.html")

@@ -21,17 +21,17 @@ class TimeTable(models.Model):
     no_of_lec = models.IntegerField(validators=[MinValueValidator(2), MaxValueValidator(14)])
     def __str__(self):
         return self.name
-    
+
+class Subject(models.Model):
+    name_of_sub = models.CharField(max_length=30)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='all_sub')
+    def __str__(self):
+        return f'{self.name_of_sub}'    
 
 class SubjectCell(models.Model):
     day = models.IntegerField(choices = DayChoice.choices)
     of_time_table = models.ForeignKey(TimeTable, on_delete=models.CASCADE, related_name='sub_cell')
     period = models.IntegerField(validators=[MaxValueValidator(14)])
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name="cell")
 
-class Subject(models.Model):
-    name_of_sub = models.CharField(max_length=30)
-    cells = models.ForeignKey(SubjectCell, on_delete=models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='all_sub')
-    def __str__(self):
-        return f'{self.name_of_sub}'
     

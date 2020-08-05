@@ -1,34 +1,33 @@
 {% extends 'timetable/base.html' %}
+{% load crispy_forms_tags %}
 {% block body %}
-    <form action="{% url 'timetable:edit' id %}" method="POST">
-        {% csrf_token %}
-        {{ subform }}
-        <input type="submit" name="subjec" value="Add Subject">
-    </form>
-    <form action="{% url 'timetable:edit' id %}" method="POST">
-        {% csrf_token %}
-        <label for="subj">Choose a Subject:</label>
-        <select name="subj" id="subj">
-            {% for echsubject in all_subjects %}
-            <option value="{{ echsubject.id }}">{{ echsubject }}</option>
-            {% endfor %}
-        </select>
-        {{ cellform }}
-        <input type="submit" name="cell" value="Add to TimeTable">
-    </form>
-    <table border="2" cellspacing="3" align="center">
-    <tr>
-    <td align="center">
-    {% for time in time_head %}
-    <td>{{ time }}
-    {% endfor %}
-    </tr>
-    {% for day, day_name in mylist %}
+    <div class="container">    
+        <form action="{% url 'timetable:edit' id %}" method="POST">
+            {% csrf_token %}
+            {{ cellform|crispy }}
+            <input class="btn btn-primary" type="submit" name="cell" value="Add to TimeTable">
+        </form>
+        <h1 class="text-center">{{ title }}</h1>
+        <table border="2" cellspacing="3" align="center">
         <tr>
-        <td align="center">{{ day_name }}
-        {% for lec in day %}
-        <td align="center">{% if lec is none %}---{% else %}{{ lec }}{% endif %}<br>
+        <td align="center">
+        {% for time in time_head %}
+        <td>{{ time }}
         {% endfor %}
         </tr>
-    {% endfor %}
+        {% for day, day_name in mylist %}
+            <tr>
+            <td align="center">{{ day_name }}
+            {% for lec in day %}
+            <td align="center">{% if lec is none %}---{% else %}{{ lec }}{% endif %}<br>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+        <form action="{% url 'timetable:edit' id %}" method="POST">
+            {% csrf_token %}
+            {{ subform|crispy }}
+            <input class='btn btn-primary' type="submit" name="subjec" value="Add Subject">
+        </form>
+    </div>
 {% endblock body %}
