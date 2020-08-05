@@ -11,7 +11,7 @@ class TimeTableForm(forms.ModelForm):
             'day_off': _('Holiday on')
         }
         labels = {
-            'starts_at': 'Starting Time of First Lecture (hh:mm)'
+            'starts_at': 'Starting Time of First Lecture (hh:mm) eg.05:00 '
         }
 class SubjectForm(forms.ModelForm):
     class Meta:

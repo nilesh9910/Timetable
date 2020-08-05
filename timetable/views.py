@@ -80,6 +80,8 @@ def register(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
+        first = request.POST["first"]
+        last = request.POST["last"]
 
         # Ensure password matches confirmation
         password = request.POST["password"]
@@ -91,7 +93,7 @@ def register(request):
 
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, first_name=first, last_name=last)
             user.save()
         except IntegrityError:
             return render(request, "timetable/register.html", {
