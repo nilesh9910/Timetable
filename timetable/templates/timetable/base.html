@@ -13,38 +13,41 @@
 </head>
 <body>
     {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'timetable:index' %}">
-            <img src="{% static 'timetable/favicon.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
-            TimeTable App
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link myBtn" href="javascript:void(0)">Create TimeTable <span class="sr-only">(current)</span></a>
-            </li>
-            {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'timetable:index' %}">
+                <svg width="30" height="30" class="text-white d-inline-block align-top" loading="lazy" viewBox="0 0 512 512" width="512pt" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="m482 292.25v-246.25c0-8.285156-6.714844-15-15-15h-76v-16c0-8.285156-6.714844-15-15-15s-15 6.714844-15 15v16h-60v-16c0-8.285156-6.714844-15-15-15s-15 6.714844-15 15v16h-60v-16c0-8.285156-6.714844-15-15-15s-15 6.714844-15 15v16h-60v-16c0-8.285156-6.714844-15-15-15s-15 6.714844-15 15v16h-76c-8.285156 0-15 6.714844-15 15v391c0 8.285156 6.714844 15 15 15h249.804688c24.25 36.152344 65.488281 60 112.195312 60 74.4375 0 135-60.5625 135-135 0-32.070312-11.25-61.5625-30-84.75zm-391-231.25v15c0 8.285156 6.714844 15 15 15s15-6.714844 15-15v-15h60v15c0 8.285156 6.714844 15 15 15s15-6.714844 15-15v-15h60v15c0 8.285156 6.714844 15 15 15s15-6.714844 15-15v-15h60v15c0 8.285156 6.714844 15 15 15s15-6.714844 15-15v-15h61v60h-422v-60zm-61 361v-271h422v113.804688c-21.464844-14.394532-47.269531-22.804688-75-22.804688-47.398438 0-89.164062 24.558594-113.257812 61.613281-2.027344-1.023437-4.3125-1.613281-6.742188-1.613281h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h22.722656c-3.386718 9.554688-5.730468 19.601562-6.882812 30h-15.839844c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h15.839844c1.152344 10.398438 3.492187 20.445312 6.882812 30zm347 60c-57.898438 0-105-47.101562-105-105s47.101562-105 105-105 105 47.101562 105 105-47.101562 105-105 105zm0 0"/><path fill="#fff" d="m437 362h-45v-45c0-8.285156-6.714844-15-15-15s-15 6.714844-15 15v60c0 8.285156 6.714844 15 15 15h60c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15zm0 0"/><path fill="#fff" d="m136 182h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15zm0 0"/><path fill="#fff" d="m136 242h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15zm0 0"/><path fill="#fff" d="m136 302h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15zm0 0"/><path fill="#fff" d="m227 212h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15zm0 0"/><path fill="#fff" d="m227 272h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15zm0 0"/><path fill="#fff" d="m136 362h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15zm0 0"/><path fill="#fff" d="m347 212h30c8.285156 0 15-6.714844 15-15s-6.714844-15-15-15h-30c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15zm0 0"/></svg>
+                <!-- <img src="{% static 'timetable/favicon.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy"> -->
+                TimeTable App
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link myBtn" href="javascript:void(0)">Create TimeTable <span class="sr-only">(current)</span></a>
+                </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="">{{ user.get_full_name }} <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout'%}">Logout <span class="sr-only">(current)</span></a>
                 </li>
-            {% else %}
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Login<span class="sr-only">(current)</span></a>
                 </li>
-            {% endif %}
+                {% endif %}
             
-            </ul>
+                </ul>
+            </div>
         </div>
-        </nav>
+    </nav>
     {% endblock navbar %}
     {% block body %}
     {% endblock %}

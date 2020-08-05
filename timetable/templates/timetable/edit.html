@@ -1,5 +1,21 @@
 {% extends 'timetable/base.html' %}
 {% block body %}
+    <form action="{% url 'timetable:edit' id %}" method="POST">
+        {% csrf_token %}
+        {{ subform }}
+        <input type="submit" name="subjec" value="Add Subject">
+    </form>
+    <form action="{% url 'timetable:edit' id %}" method="POST">
+        {% csrf_token %}
+        <label for="subj">Choose a Subject:</label>
+        <select name="subj" id="subj">
+            {% for echsubject in all_subjects %}
+            <option value="{{ echsubject.id }}">{{ echsubject }}</option>
+            {% endfor %}
+        </select>
+        {{ cellform }}
+        <input type="submit" name="cell" value="Add to TimeTable">
+    </form>
     <table border="2" cellspacing="3" align="center">
     <tr>
     <td align="center">

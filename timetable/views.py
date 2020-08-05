@@ -1,8 +1,8 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta, date
-from .models import DayChoice, TimeTable
-from .forms import TimeTableForm
+from .models import DayChoice, TimeTable, Subject
+from .forms import TimeTableForm, SubjectForm, SubjectCellForm
 from django.views.generic import ListView
 # Create your views here.
 def index(request):
@@ -44,4 +44,21 @@ def edit(request, id):
     # get all days in the choices available
     all_days = [DayChoice(j).label for j in range(7)]
     mylist = zip(list_tt, all_days)
-    return render(request, 'timetable/edit.html', {'id': id, 'mylist': mylist, 'time_head': time_head})
+    ctx = {'id': id, 'mylist': mylist, 'time_head': time_head}
+    subform = SubjectForm()
+    ctx['subform'] = subform
+    cellform = SubjectCellForm()
+    # get all the subjects available
+    all_subjects = Subject.objects.filter(user = request.user.id)
+    ctx['all_subjects'] = all_subjects
+    ctx['cellform'] = cellform
+    if request.method == "POST":
+        if "subjec" in request.POST:
+            subform = SubjectForm(request.POST)
+            if subform.is_valid():
+                obj = subform.save(commit=False)
+                obj.user = request.user
+                obj.save()
+        elif "cell" in request.POST:
+            print("Add to timetable is called")
+    return render(request, 'timetable/edit.html', ctx)

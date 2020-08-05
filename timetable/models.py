@@ -30,7 +30,8 @@ class SubjectCell(models.Model):
 
 class Subject(models.Model):
     name_of_sub = models.CharField(max_length=30)
-    cells = models.ForeignKey(SubjectCell, on_delete=models.CASCADE)
+    cells = models.ForeignKey(SubjectCell, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='all_sub')
     def __str__(self):
         return f'{self.name_of_sub}'
     

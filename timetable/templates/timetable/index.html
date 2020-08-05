@@ -7,12 +7,14 @@
     <button class="btn btn-primary btn-lg shadow mb-5 rounded myBtn" id="hrBtn">Create TimeTable</button>
     <div>
     {% if user.is_authenticated %}
-        <h2 class="shadow-sm p-3 mb-5 bg-white rounded">Your TimeTables</h2>
-        <ul>
-        {% for timetable in all_timetable %}
-        <li><a href="{% url 'timetable:edit' timetable.id %}">{{ timetable }}</a></li>
-        {% endfor %}
-        </ul>
+        <div class="container">
+            <h1 class="p-2">Your TimeTables</h1>
+            <ul>
+            {% for timetable in all_timetable %}
+            <li><a href="{% url 'timetable:edit' timetable.id %}">{{ timetable }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
     {% endif %}
     <div id="myModal" class="modal">
 
